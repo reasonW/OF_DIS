@@ -1,12 +1,13 @@
 cmake_minimum_required (VERSION 2.8) 
 project (FastPatchOF) 
-
+set(OpenCV_DIR  /usr/local/share/OpenCV)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wno-unknown-pragmas -Wall -std=c++11 -msse4")  #-Wall
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wno-unknown-pragmas -Wall -msse4")  #-Wall
 
 FIND_PACKAGE(OpenCV REQUIRED)
 FIND_PACKAGE(Eigen3 REQUIRED) 
 include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories(${Opencv_INCLUDE_DIRS})
 
 # # # UNCOMMENT THIS IF YOU WANT TO USE OPENMP PARALLELIZATION
 # add_definitions(-DWITH_OPENMP=true)
@@ -20,6 +21,7 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 
 set(CODEFILES run_dense.cpp oflow.cpp patch.cpp patchgrid.cpp refine_variational.cpp FDF1.0.1/image.c FDF1.0.1/opticalflow_aux.c FDF1.0.1/solver.c)
+set(WEBCAMCODEFILES run_webcam.cpp oflow.cpp patch.cpp patchgrid.cpp refine_variational.cpp FDF1.0.1/image.c FDF1.0.1/opticalflow_aux.c FDF1.0.1/solver.c)
 
 # GrayScale, Optical Flow
 add_executable (run_OF_INT ${CODEFILES})
@@ -45,8 +47,5 @@ set_target_properties (run_DE_RGB PROPERTIES COMPILE_DEFINITIONS "SELECTMODE=2")
 set_property(TARGET run_DE_RGB APPEND PROPERTY COMPILE_DEFINITIONS "SELECTCHANNEL=3")
 TARGET_LINK_LIBRARIES(run_DE_RGB ${OpenCV_LIBS})
 
-set(CODEFILES run_webcam.cpp oflow.cpp patch.cpp patchgrid.cpp refine_variational.cpp FDF1.0.1/image.c FDF1.0.1/opticalflow_aux.c FDF1.0.1/solver.c)
-
-# GrayScale, Optical Flow
-add_executable (run_WEBCAM ${CODEFILES})
-TARGET_LINK_LIBRARIES(run_WEBCAM ${OpenCV_LIBS})
+add_executable (run_OF_WEBCAM ${WEBCAMCODEFILES})
+TARGET_LINK_LIBRARIES(run_OF_WEBCAM ${OpenCV_LIBRARIES})
