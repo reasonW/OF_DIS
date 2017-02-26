@@ -45,3 +45,8 @@ set_target_properties (run_DE_RGB PROPERTIES COMPILE_DEFINITIONS "SELECTMODE=2")
 set_property(TARGET run_DE_RGB APPEND PROPERTY COMPILE_DEFINITIONS "SELECTCHANNEL=3")
 TARGET_LINK_LIBRARIES(run_DE_RGB ${OpenCV_LIBS})
 
+set(CODEFILES run_webcam.cpp oflow.cpp patch.cpp patchgrid.cpp refine_variational.cpp FDF1.0.1/image.c FDF1.0.1/opticalflow_aux.c FDF1.0.1/solver.c)
+
+# GrayScale, Optical Flow
+add_executable (run_WEBCAM ${CODEFILES})
+TARGET_LINK_LIBRARIES(run_WEBCAM ${OpenCV_LIBS})
